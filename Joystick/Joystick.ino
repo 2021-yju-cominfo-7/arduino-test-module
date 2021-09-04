@@ -19,7 +19,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-
   int push = digitalRead(3);
   int posX = analogRead(A0);
   int posY = analogRead(A1);
