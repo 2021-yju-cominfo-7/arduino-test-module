@@ -4,8 +4,8 @@
 Servo servo;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-int JOYSTICK = 8;
-int MOTOR = 9;
+int JOYSTICK = 7;
+int MOTOR = 6;
 int ANGLE = 90; 
 
 void setup() {
