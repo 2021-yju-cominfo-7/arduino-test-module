@@ -1,0 +1,5 @@
+{
+  "board": "arduino:avr:uno",
+  "port": "/dev/cu.usbmodem22301",
+  "sketch": "Liquid_Crystal_I2C/Liquid_Crystal_I2C.ino"
+}
