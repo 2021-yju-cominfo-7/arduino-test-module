@@ -1,6 +1,7 @@
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
+int JOYSTICK = 8;
 
 void setup() {
   // put your setup code here, to run once:
@@ -9,17 +10,15 @@ void setup() {
   lcd.backlight();
   
   Serial.begin(9600);
-  pinMode(8, INPUT_PULLUP);
+  pinMode(JOYSTICK, INPUT_PULLUP);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-  int cenX = 510;
-  int cenY = 512;
-  
-  int posX = analogRead(A0) - cenX;
-  int posY = analogRead(A1) - cenY;
+  int margin = 5;
+  int posX = analogRead(A0);
+  int posY = analogRead(A1);
 
   lcd.clear();
   
@@ -27,24 +26,25 @@ void loop() {
   lcd.print("X:");
   lcd.print(posX);
 
-  if (posX == 0) {
-    lcd.print(" / Center");
-  } else if (posX < cenX) {
+  if (posX < 510 - margin) {
     lcd.print(" / Left");
-  } else {
+  } else if (posX > 510 + margin) {
     lcd.print(" / Right");
+  } else {
+    lcd.print(" / Center");
   }
   
   lcd.setCursor(0, 1);
   lcd.print("Y:");
   lcd.print(posY);
+
   
-  if (posY == 512) {
-    lcd.print(" / Center");
-  } else if (posY < cenY) {
+  if (posY < 512 - margin) {
     lcd.print(" / Down");
-  } else {
+  } else if (posY > 512 + margin) {
     lcd.print(" / Up");
+  } else {
+    lcd.print(" / Center");
   }
   
   Serial.print("X: ");
