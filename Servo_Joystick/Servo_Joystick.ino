@@ -1,19 +1,13 @@
-#include <LiquidCrystal_I2C.h>
 #include <Servo.h>
 
 Servo servo;
-LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-int JOYSTICK = 7;
-int MOTOR = 6;
+int JOYSTICK = 13;
+int MOTOR = 10;
 int ANGLE = 90; 
 
 void setup() {
-  // put your setup code here, to run once:
-  
-  lcd.init();
-  lcd.backlight();
-  
+  // put your setup code here, to run once:  
   Serial.begin(9600);
   pinMode(JOYSTICK, INPUT_PULLUP);
 
@@ -24,43 +18,22 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   int margin = 5;
-  int posX = analogRead(A0) - 510;
+  int posX = (analogRead(A0) - 512) / 9;
   int posY = analogRead(A1) - 512;
-  
-  int tmp = 89.5;
 
-  lcd.clear();
-  
-  lcd.setCursor(0, 0);
-  lcd.print("X:");
-  lcd.print(posX);
+//  Serial.println(posX);
 
   if (posX < 0 - margin) {
-    lcd.print(" / Left");
-    tmp = ANGLE + posX / 1020.0 * 180;
+    Serial.print("Left / ");
   } else if (posX > 0 + margin) {
-    lcd.print(" / Right");
-    tmp = ANGLE + posX / 1037.5 * 180;
+    Serial.print("Right / ");
   } else {
-    lcd.print(" / Center");
+    Serial.print("Center / ");
   }
 
-  tmp = 179 - tmp;
-  Serial.println(tmp);
-  servo.write(tmp);
-  
-  lcd.setCursor(0, 1);
-  lcd.print("Y:");
-  lcd.print(posY);
-
-  
-  if (posY < 0 - margin) {
-    lcd.print(" / Down");
-  } else if (posY > 0 + margin) {
-    lcd.print(" / Up");
-  } else {
-    lcd.print(" / Center");
-  }
+  int deg = ANGLE + posX;
+  Serial.println(deg);
+  servo.write(deg);
   
   delay(50);       
 }
